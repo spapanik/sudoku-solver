@@ -8,12 +8,12 @@ BINDIR = bin
 DIRS = $(BUILDDIR) $(BINDIR)
 
 # FILES
-REQUIRED = constants sudoku utils
+REQUIRED = main constants sudoku utils
 OBJ = $(foreach file,$(REQUIRED),$(BUILDDIR)/$(file).o)
 
 
 # files
-$(BINDIR)/ssolve: src/main.cpp $(OBJ) | $(BINDIR)
+$(BINDIR)/ssolve: $(OBJ) | $(BINDIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
 $(BUILDDIR)/%.o: src/%.cpp | $(BUILDDIR)
