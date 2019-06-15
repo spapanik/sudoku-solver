@@ -1,6 +1,6 @@
-#include "constants.hpp"
-
 #include <unordered_set>
+
+#include "constants.hpp"
 
 using namespace ::std;
 

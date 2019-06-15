@@ -6,8 +6,8 @@
 #include <unordered_map>
 #include <exception>
 
-#include "sudoku.hpp"
 #include "constants.hpp"
+#include "sudoku.hpp"
 
 using namespace ::std;
 

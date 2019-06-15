@@ -1,6 +1,8 @@
 #include <string>
 #include <regex>
 
+#include "utils.hpp"
+
 using namespace ::std;
 
 const regex expression("[^1-9]");
