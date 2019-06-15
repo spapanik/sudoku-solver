@@ -26,5 +26,5 @@ $(DIRS):
 # cleanup
 .PHONY: clean
 clean:
-	-rm $(BUILDDIR)/*
-	-rm $(BINDIR)/*
+	find $(BUILDDIR) -type f -delete
+	find $(BINDIR) -type f -delete
