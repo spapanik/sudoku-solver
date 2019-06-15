@@ -70,8 +70,7 @@ bool Sudoku::advance_cells() {
 }
 
 
-template <class type>
-type get_element(unordered_set<type> non_empty_set) {
+template <class type> type get_element(unordered_set<type> non_empty_set) {
 	for (type object: non_empty_set) {
 		return object;
 	}
