@@ -18,7 +18,7 @@ Sudoku::Sudoku(const string sudoku_string) {
 
 	for (int i = 0; i < 81; i++) {
 		if (cells[i] == '.') {
-			unordered_set<char> temp_digits(constants.digits);
+			unordered_set<char> temp_digits = constants.digits;
 			for (int j: constants.collisions[i]) {
 				temp_digits.erase(cells[j]);
 			}
@@ -102,16 +102,20 @@ bool Sudoku::hidden_single() {
 	vector<int> deleted;
 
 	for (pair<int, unordered_set<char>> candidate_pair: candidates) {
-			unordered_set<int> blocks[3];
 			int index = candidate_pair.first;
-			blocks[0] = constants.indices_in_same_row[index];
-			blocks[1] = constants.indices_in_same_column[index];
-			blocks[2] = constants.indices_in_same_box[index];
+			unordered_set<int> blocks[3] = {
+				constants.indices_in_same_row[index],
+				constants.indices_in_same_column[index],
+				constants.indices_in_same_box[index],
+			};
+
 			for (unordered_set<int> block: blocks) {
-				unordered_set<char> unique(candidates[index]);
+				unordered_set<char> unique = candidates[index];
 				for (int j: block) {
-					for (char digit: candidates[j]) {
-						unique.erase(digit);
+					if (candidates.find(j) != candidates.end()) {
+						for (char digit: candidates[j]) {
+							unique.erase(digit);
+						}
 					}
 				}
 				if (unique.size() == 1) {
@@ -132,5 +136,5 @@ bool Sudoku::hidden_single() {
 		candidates.erase(index);
 	}
 
-		return advanced;
+	return advanced;
 }
