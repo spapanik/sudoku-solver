@@ -1,5 +1,6 @@
 #include <unordered_set>
 
+using namespace ::std;
 
 template <class type> type get_element(unordered_set<type> non_empty_set) {
 	for (type object: non_empty_set) {
