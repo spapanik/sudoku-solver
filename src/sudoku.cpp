@@ -179,7 +179,7 @@ bool Sudoku::hidden_single() {
 }
 
 
-bool Sudoku::naked_pair_group(unordered_set<int> group) {
+bool Sudoku::naked_pair(unordered_set<int> group) {
 	bool advanced = false;
 	unordered_set<int> unfilled{};
 	for (pair<int, unordered_set<char>> candidate: candidates) {
@@ -214,20 +214,20 @@ bool Sudoku::naked_pair_group(unordered_set<int> group) {
 bool Sudoku::naked_pair() {
 	bool advanced = false;
 	for (unordered_set<int> row: constants.rows) {
-		advanced |= naked_pair_group(row);
+		advanced |= naked_pair(row);
 	}
 	for (unordered_set<int> column: constants.columns) {
-		advanced |= naked_pair_group(column);
+		advanced |= naked_pair(column);
 	}
 	for (unordered_set<int> box: constants.boxes) {
-		advanced |= naked_pair_group(box);
+		advanced |= naked_pair(box);
 	}
 
 	return advanced;
 }
 
 
-bool Sudoku::hidden_pair_group(unordered_set<int> group) {
+bool Sudoku::hidden_pair(unordered_set<int> group) {
 	bool advanced = false;
 	unordered_set<int> unfilled{};
 	for (pair<int, unordered_set<char>> candidate: candidates) {
@@ -269,13 +269,13 @@ bool Sudoku::hidden_pair_group(unordered_set<int> group) {
 bool Sudoku::hidden_pair() {
 	bool advanced = false;
 	for (unordered_set<int> row: constants.rows) {
-		advanced |= hidden_pair_group(row);
+		advanced |= hidden_pair(row);
 	}
 	for (unordered_set<int> column: constants.columns) {
-		advanced |= hidden_pair_group(column);
+		advanced |= hidden_pair(column);
 	}
 	for (unordered_set<int> box: constants.boxes) {
-		advanced |= hidden_pair_group(box);
+		advanced |= hidden_pair(box);
 	}
 
 	return advanced;
