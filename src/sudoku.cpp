@@ -180,13 +180,13 @@ bool Sudoku::naked_pair_group(unordered_set<int> group) {
 bool Sudoku::naked_pair() {
 	bool advanced = false;
 	for (unordered_set<int> row: constants.rows) {
-		advanced &= naked_pair_group(row);
+		advanced |= naked_pair_group(row);
 	}
 	for (unordered_set<int> column: constants.columns) {
-		advanced &= naked_pair_group(column);
+		advanced |= naked_pair_group(column);
 	}
 	for (unordered_set<int> box: constants.boxes) {
-		advanced &= naked_pair_group(box);
+		advanced |= naked_pair_group(box);
 	}
 
 	return advanced;
