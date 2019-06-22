@@ -35,5 +35,6 @@ class Sudoku {
 	public:
 		Sudoku(const string sudoku_initial);
 		string str();
+		string debug_str();
 		bool solve();
 };

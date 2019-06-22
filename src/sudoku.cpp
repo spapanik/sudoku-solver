@@ -28,13 +28,47 @@ Sudoku::Sudoku(const string sudoku_string) {
 }
 
 
+vector<char> sort_digits(unordered_set<char> digits) {
+	vector<char> out{};
+	for (char c: {'1', '2', '3', '4', '5', '6', '7', '8', '9'}) {
+		if (digits.find(c) != digits.end()) {
+			out.push_back(c);
+		}
+	}
+	return out;
+}
+
+
+string Sudoku::debug_str() {
+	ostringstream stringStream;
+	vector<char> row_id{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J'};
+	stringStream
+		<< "cells: " << cells << endl
+		<< "candidates: {" << endl;
+
+	for (int i = 0; i < 81; i++) {
+		if (candidates.find(i) != candidates.end()) {
+			stringStream << "\t";
+			stringStream << row_id[i/9];
+			stringStream << (i%9) + 1 << ": (";
+			for (char c: sort_digits(candidates[i])) {
+				stringStream << c << ", ";
+			}
+			stringStream << "\b\b)," << endl;
+		}
+	}
+	stringStream << "}" << endl;
+	return stringStream.str();
+}
+
+
 string Sudoku::str() {
 	ostringstream stringStream;
 	stringStream
-	<< TOP << endl
-	<< format_row(0) << format_row(1) << format_row(2) << MID << endl
-	<< format_row(3) << format_row(4) << format_row(5) << MID << endl
-	<< format_row(6) << format_row(7) << format_row(8) << BTM << endl;
+		<< TOP << endl
+		<< format_row(0) << format_row(1) << format_row(2) << MID << endl
+		<< format_row(3) << format_row(4) << format_row(5) << MID << endl
+		<< format_row(6) << format_row(7) << format_row(8) << BTM << endl;
 	return stringStream.str();
 }
 

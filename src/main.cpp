@@ -22,9 +22,11 @@ int main(int argc, char** argv) {
 		Sudoku sudoku(sudoku_string);
 		bool success = sudoku.solve();
 		if (success) {
-			cout << "Solution:\n" << sudoku.str();
+			cout << "Solution:" << endl << sudoku.str();
 		} else {
-			cout << "Couldn't solve sudoku, last step:\n" << sudoku.str();
+			cout
+				<< "Couldn't solve sudoku, last step:" << endl << sudoku.str()
+				<< "Debug info:" << endl << sudoku.debug_str();
 		}
 	}
 	return EXIT_SUCCESS;
