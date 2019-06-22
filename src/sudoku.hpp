@@ -28,6 +28,8 @@ class Sudoku {
 	// region: Advance sudoku.candidates
 	bool naked_pair();
 	bool naked_pair_group(unordered_set<int> group);
+	bool hidden_pair();
+	bool hidden_pair_group(unordered_set<int> group);
 	// endregion
 
 	public:
