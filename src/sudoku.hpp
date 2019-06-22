@@ -20,8 +20,15 @@ class Sudoku {
 	string format_row(int row);
 	bool advance();
 	bool advance_cells();
+	bool advance_candidates();
+	// region: Advance sudoku.cells
 	bool naked_single();
 	bool hidden_single();
+	// endregion
+	// region: Advance sudoku.candidates
+	bool naked_pair();
+	bool naked_pair_group(unordered_set<int> group);
+	// endregion
 
 	public:
 		Sudoku(const string sudoku_initial);

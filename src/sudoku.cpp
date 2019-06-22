@@ -62,12 +62,17 @@ bool Sudoku::solve() {
 
 
 bool Sudoku::advance() {
-	return advance_cells();
+	return advance_cells() || advance_candidates();
 }
 
 
 bool Sudoku::advance_cells() {
 	return naked_single() || hidden_single();
+}
+
+
+bool Sudoku::advance_candidates() {
+	return naked_pair();
 }
 
 
@@ -134,6 +139,54 @@ bool Sudoku::hidden_single() {
 	}
 	for (int index: deleted) {
 		candidates.erase(index);
+	}
+
+	return advanced;
+}
+
+
+bool Sudoku::naked_pair_group(unordered_set<int> group) {
+	bool advanced = false;
+	unordered_set<int> unfilled{};
+	for (pair<int, unordered_set<char>> candidate: candidates) {
+		unfilled.insert(candidate.first);
+	}
+	unordered_set<int> indices = intersection_set(group, unfilled);
+	if (indices.size() <= 2) {
+		return false;
+	}
+
+	Combinations<unordered_set<int>, int> combinations(indices, 2);
+	while (!combinations.completed) {
+		vector<int> combination = combinations.next();
+		int index_1 = combination[0];
+		int index_2 = combination[1];
+		unordered_set<char> digits = candidates[index_1];
+		if (digits.size() != 2 || digits != candidates[index_2]) {
+			continue;
+		}
+		for (int index: difference_set(indices, {index_1, index_2})) {
+			if (intersection_set(digits, candidates[index]).size()) {
+				candidates[index] = difference_set(candidates[index], digits);
+				advanced = true;
+			}
+		}
+	}
+
+	return advanced;
+}
+
+
+bool Sudoku::naked_pair() {
+	bool advanced = false;
+	for (unordered_set<int> row: constants.rows) {
+		advanced &= naked_pair_group(row);
+	}
+	for (unordered_set<int> column: constants.columns) {
+		advanced &= naked_pair_group(column);
+	}
+	for (unordered_set<int> box: constants.boxes) {
+		advanced &= naked_pair_group(box);
 	}
 
 	return advanced;

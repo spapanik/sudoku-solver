@@ -1,4 +1,5 @@
 #include <unordered_set>
+#include <vector>
 
 using namespace ::std;
 
@@ -46,3 +47,47 @@ template <class type> unordered_set<type> difference_set(unordered_set<type> fir
 
 	return output;
 }
+
+
+template <class container, class type> class Combinations {
+	vector<int> state;
+	vector<type> objects;
+	int length;
+	int choose;
+
+	public:
+		Combinations(container iterable, int choose):
+			choose(choose) {
+				length = 0;
+				for (type elem: iterable) {
+					objects.push_back(elem);
+					length++;
+				}
+				for (int i = 0; i < choose; i++) {
+					state.push_back(i);
+				}
+				completed = (length == 0 || choose > length);
+			}
+
+		bool completed;
+		vector<type> next() {
+			vector<type> out;
+			for (int i: state) {
+				out.push_back(objects[i]);
+			}
+
+			completed = true;
+			for (int i = choose - 1; i >= 0; --i) {
+				if (state[i] < length - choose + i) {
+					int j = state[i] + 1;
+					while (i <= choose - 1) {
+						state[i++] = j++;
+					}
+					completed = false;
+					break;
+				}
+			}
+
+			return out;
+		}
+};
