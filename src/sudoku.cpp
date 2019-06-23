@@ -106,7 +106,7 @@ bool Sudoku::advance_cells() {
 
 
 bool Sudoku::advance_candidates() {
-	return naked_pair() || hidden_pair();
+	return naked_pair() || hidden_pair() || pointing_pair();
 }
 
 
@@ -278,5 +278,74 @@ bool Sudoku::hidden_pair() {
 		advanced |= hidden_pair(box);
 	}
 
+	return advanced;
+}
+
+
+bool Sudoku::pointing_pair(unordered_set<int> box, unordered_set<int> line) {
+	bool advanced = false;
+	unordered_set<int> unfilled{};
+	for (auto candidate: candidates) {
+		unfilled.insert(candidate.first);
+	}
+	auto common = intersection_set(intersection_set(box, line), unfilled);
+	if (common.size() == 0) {
+		return false;
+	}
+	auto outside_line = intersection_set(difference_set(box, line), unfilled);
+	auto outside_box = intersection_set(difference_set(line, box), unfilled);
+	if ((outside_line.size() == 0) || (outside_box.size() == 0)) {
+		return false;
+	}
+
+	unordered_set<char> common_digits{};
+	for (auto index: common) {
+		for (auto digit: candidates[index]) {
+			common_digits.insert(digit);
+		}
+	}
+	unordered_set<char> outside_line_digits{};
+	for (auto index: outside_line) {
+		for (auto digit: candidates[index]) {
+			outside_line_digits.insert(digit);
+		}
+	}
+	unordered_set<char> outside_box_digits{};
+	for (auto index: outside_box) {
+		for (auto digit: candidates[index]) {
+			outside_box_digits.insert(digit);
+		}
+	}
+
+	auto line_only_digits = difference_set(common_digits, outside_line_digits);
+	if (intersection_set(line_only_digits, outside_box_digits).size() > 0) {
+		advanced = true;
+		for (auto index: outside_box) {
+			candidates[index] = difference_set(candidates[index], line_only_digits);
+		}
+	}
+
+	auto box_only_digits = difference_set(common_digits, outside_box_digits);
+	if (intersection_set(box_only_digits, outside_line_digits).size() > 0) {
+		advanced = true;
+		for (auto index: outside_line) {
+			candidates[index] = difference_set(candidates[index], box_only_digits);
+		}
+	}
+
+	return advanced;
+}
+
+
+bool Sudoku::pointing_pair() {
+	bool advanced = false;
+	for (unordered_set<int> box: constants.boxes) {
+		for (unordered_set<int> row: constants.rows) {
+			advanced |= pointing_pair(box, row);
+		}
+		for (unordered_set<int> column: constants.columns) {
+			advanced |= pointing_pair(box, column);
+		}
+	}
 	return advanced;
 }

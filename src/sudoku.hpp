@@ -30,6 +30,8 @@ class Sudoku {
 	bool naked_pair(unordered_set<int> group);
 	bool hidden_pair();
 	bool hidden_pair(unordered_set<int> group);
+	bool pointing_pair();
+	bool pointing_pair(unordered_set<int> box, unordered_set<int> line);
 	// endregion
 
 	public:
