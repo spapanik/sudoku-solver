@@ -1,6 +1,6 @@
 # Compiler
 CC = g++
-CFLAGS = -g -Wall -Wextra -Ofast
+CFLAGS = -g -Wall -Wextra -Ofast -std=c++20
 
 # Directories
 BUILDDIR = build
