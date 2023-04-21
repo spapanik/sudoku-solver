@@ -1,4 +1,5 @@
 # compiled files
-bin/
-build/
-target/
+/target/
+
+# lockfiles
+/Cargo.lock
