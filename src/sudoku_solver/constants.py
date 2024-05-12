@@ -2,22 +2,8 @@ from __future__ import annotations
 
 import itertools
 from dataclasses import dataclass
-from typing import Any
 
-
-class Singleton(type):
-    instance: type[Singleton] | None
-
-    def __init__(
-        cls, name: str, bases: tuple[type[Singleton], ...], dict_: dict[str, Any]
-    ):
-        super().__init__(name, bases, dict_)
-        cls.instance = None
-
-    def __call__(cls) -> type[Singleton]:
-        if cls.instance is None:
-            cls.instance = super().__call__()
-        return cls.instance
+from pyutilkit.classes import Singleton
 
 
 @dataclass(frozen=True, slots=True)

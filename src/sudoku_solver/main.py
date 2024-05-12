@@ -2,9 +2,11 @@ import argparse
 import sys
 from time import perf_counter_ns
 
+from pyutilkit.timing import Timing
+
 from sudoku_solver import __version__
 from sudoku_solver.puzzle import SudokuPuzzle
-from sudoku_solver.utils import cleanup_puzzle, format_time
+from sudoku_solver.utils import cleanup_puzzle
 
 
 def parse_args() -> argparse.Namespace:
@@ -70,7 +72,7 @@ def main() -> None:
             print("No timings to report", file=sys.stderr)
             return
         total_time = sum(timings)
-        average_time = total_time / len(timings)
+        average_time = total_time // len(timings)
         print("Timings:")
-        print(f"Total time: {format_time(total_time)}")
-        print(f"Average time: {format_time(average_time)}")
+        print(f"Total time: {Timing(nanoseconds=total_time)}")
+        print(f"Average time: {Timing(nanoseconds=average_time)}")
